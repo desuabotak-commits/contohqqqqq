@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnonMessage</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+}
+
+header{
+    background:black;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    color:#3b82f6;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+.form-box{
+    background:#111827;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+textarea{
+    width:100%;
+    height:120px;
+    resize:none;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:black;
+}
+
+button{
+    margin-top:10px;
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#2563eb;
+}
+
+.pesan{
+    background:black;
+    border-left:4px solid #3b82f6;
+    padding:15px;
+    margin-top:15px;
+    border-radius:10px;
+}
+
+.pesan span{
+    color:#60a5fa;
+    font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>💬 Pesan Anonim</h1>
+    <p>Tulis pesan tanpa nama</p>
+</header>
+
+<div class="container">
+
+    <div class="form-box">
+        <textarea id="pesanInput"
+        placeholder="Tulis pesan anonim..."></textarea>
+
+        <button onclick="kirimPesan()">
+            Kirim Pesan
+        </button>
+    </div>
+
+    <h2>Pesan Publik</h2>
+    <div id="daftarPesan"></div>
+
+</div>
+
+<script>
+let pesanList =
+JSON.parse(localStorage.getItem("pesanAnonim")) || [];
+
+function tampilkanPesan(){
+    const daftar =
+    document.getElementById("daftarPesan");
+
+    daftar.innerHTML = "";
+
+    pesanList.reverse().forEach((pesan)=>{
+        daftar.innerHTML += `
+        <div class="pesan">
+            <span>Anonim</span>
+            <p>${pesan}</p>
+        </div>
+        `;
+    });
+
+    pesanList.reverse();
+}
+
+function kirimPesan(){
+    let input =
+    document.getElementById("pesanInput");
+
+    let pesan = input.value.trim();
+
+    if(pesan === ""){
+        alert("Tulis pesan dulu!");
+        return;
+    }
+
+    pesanList.push(pesan);
+
+    localStorage.setItem(
+        "pesanAnonim",
+        JSON.stringify(pesanList)
+    );
+
+    input.value = "";
+
+    tampilkanPesan();
+}
+
+tampilkanPesan();
+</script>
+
+</body>
+</html>
